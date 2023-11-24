@@ -8,11 +8,18 @@ module.exports = function (db) {
 
   router.get("/", async function (req, res, next) {
     try {
-      const { page = 1, limit = 5, keyword = "", sortBy, sortMode = 'desc' } = req.query;
+      const {
+        page = 1,
+        limit = 5,
+        keyword = "",
+        sortBy = "_id",
+        sortMode = "desc",
+      } = req.query;
       const params = {};
-      const sort = {}
-      sort[sortBy] = sortMode
+      const sort = {};
+      sort[sortBy] = sortMode;
       const offset = (page - 1) * limit;
+      console.log('kelar', limit)
 
       params["$or"] = [
         { name: new RegExp(keyword, "i") },
@@ -22,12 +29,13 @@ module.exports = function (db) {
       const totaldata = await User.count(params);
       const pages = Math.ceil(totaldata / limit);
 
+
       const users = await User.find(params)
         .sort(sort)
+        .skip(offset)
         .limit(Number(limit))
-        .skip(Number(offset))
         .toArray();
-      res.json({ data: users, totaldata, pages, page, limit, offset });
+      res.json({ data: users, totaldata, pages, page: Number(page), limit, offset });
     } catch (err) {
       res.status(500).json({ err });
     }
