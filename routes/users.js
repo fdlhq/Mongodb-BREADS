@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 const { ObjectId } = require("mongodb");
-var router = express.Router();
 
 module.exports = function (db) {
   const User = db.collection("users");
@@ -35,9 +34,9 @@ module.exports = function (db) {
         .skip(offset)
         .limit(Number(limit))
         .toArray();
-      res.json({ data: users, totaldata, pages, page: Number(page), limit, offset });
+      res.json({ data: users, totaldata, pages, page: Number(page), limit: Number(limit), offset });
     } catch (err) {
-      res.status(500).json({ err });
+      res.status(500).json({ err }); 
     }
   });
 

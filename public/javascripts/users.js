@@ -4,8 +4,6 @@ let id = null,
   limit = 5,
   sortBy = "_id",
   sortMode = "desc";
-  
-
 
 function getId(_id) {
   id = _id;

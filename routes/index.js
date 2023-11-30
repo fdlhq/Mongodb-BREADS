@@ -6,5 +6,9 @@ module.exports = (db) => {
     res.render("userslist");
   });
 
+  router.get('/users/:id/todos', (req, res, next) => {
+    res.render('todoslist', {executor: req.params.id})
+  })
+
   return router;
 };
