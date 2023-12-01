@@ -7,8 +7,6 @@ module.exports = function (db) {
   const Todo = db.collection("todos");
   const User = db.collection("users");
 
-  console.log('ini', User)
-
   router.get("/", async function (req, res, next) {
     try {
       const {
@@ -100,7 +98,7 @@ module.exports = function (db) {
         },
         { returnDocument: "after" }
       );
-      res.status(201).json(user);
+      res.status(201).json(todo);
     } catch (error) {
       res.status(500).json({ error });
     }
@@ -110,7 +108,7 @@ module.exports = function (db) {
     try {
       const id = req.params.id;
       const todo = await Todo.findOne({ _id: new ObjectId(id) });
-      res.status(201).json(user);
+      res.status(201).json(todo);
     } catch (error) {
       res.status(500).json({ error });
     }
@@ -120,7 +118,7 @@ module.exports = function (db) {
     try {
       const id = req.params.id;
       const todo = await Todo.findOneAndDelete({ _id: new ObjectId(id) });
-      res.status(201).json(user);
+      res.status(201).json(todo);
     } catch (error) {
       res.status(500).json({ error });
     }
