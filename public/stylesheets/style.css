@@ -23,10 +23,6 @@ a {
   padding: 0;
 }
 
-.navigation-bar {
-
-}
-
 .inner-nav {
   display: flex;
   justify-content: space-between;
