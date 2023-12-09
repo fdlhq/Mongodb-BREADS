@@ -21,12 +21,12 @@ const browseData = () => {
   enddateDeadline = $("#enddateDeadline").val();
   if ($("#completeTodo").val()) complete = $("#completeTodo").val();
   else complete = "";
+
   readData()
 };
 
 const sortAsc = (deadline) => {
     page = 1
-    console.log(deadline, 'dedada')
     sortBy = deadline
     sortMode = 'asc'
     let ascMode = `
@@ -53,13 +53,13 @@ const resetData = () => {
     enddateDeadline = ""
     complete = ""
     $("#searchTitle").val('')
-    $("#stardateDeadline").val('')
+    $("#startdateDeadline").val('')
     $("#enddateDeadline").val('')
     $("#completeTodo").val('')
 
     sortBy = "_id"
     sortMode = "desc"
-    let defaultMode = `<button class="btn btn-succes" onclick="sortDesc("deadline")"><i class="fa-solid fa-sort"></i> sort by deadline</button>`
+    let defaultMode = `<button class="btn btn-succes" onclick='sortDesc("deadline")'><i class="fa-solid fa-sort"></i> sort by deadline</button>`
     $('#changeSort').html(defaultMode)
     readData()
 }
@@ -71,7 +71,6 @@ $(document).ready(function(){
             readData()
         }
     });
-    readData();
 });
 
 const readData = async () => {
@@ -123,6 +122,7 @@ const readData = async () => {
     }
   } 
 }
+readData();
 
 
 const addData = async () => {
