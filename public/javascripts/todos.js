@@ -8,7 +8,9 @@ let id = null,
   keyword = "",
   limit = 5,
   sortBy = "_id",
-  sortMode = "desc";
+  sortMode = "desc",
+  reachedEnd = false;
+
 
 function getId(_id) {
   id = _id;
@@ -22,6 +24,10 @@ const browseData = () => {
   if ($("#completeTodo").val()) complete = $("#completeTodo").val();
   else complete = "";
 
+  if (!title.trim()) {
+    title = null;
+  }
+  
   readData()
 };
 
@@ -59,16 +65,19 @@ const resetData = () => {
 
     sortBy = "_id"
     sortMode = "desc"
-    let defaultMode = `<button class="btn btn-succes" onclick='sortDesc("deadline")'><i class="fa-solid fa-sort"></i> sort by deadline</button>`
+    page = 1;
+    reachedEnd = false;
+
+    let defaultMode = `<button class="btn btn-success" onclick='sortDesc("deadline")'><i class="fa-solid fa-sort"></i> sort by deadline</button>`
     $('#changeSort').html(defaultMode)
     readData()
 }
 
 $(document).ready(function(){
     $(window).scroll(function() {
-        if($(window).scrollTop() >= $(document).height() - $(window).height() - 5) {
-            page++
-            readData()
+        if (!reachedEnd && $(window).scrollTop() >= $(document).height() - $(window).height() - 5) {
+            page++;
+            readData();
         }
     });
 });
@@ -114,15 +123,26 @@ const readData = async () => {
         </div>
         `;
     });
-    if(page <= todos.pages) {
-    if(page === 1){
-        $("#showTodos").html(list);
-    } else {
-        $('#showTodos').append(list)
-    }
-  } 
-}
+
+    if (todos.data.length > 0) {
+        if (page <= todos.pages) {
+          if (page === 1) {
+            $("#showTodos").html(list);
+          } else {
+            $('#showTodos').append(list);
+          }
+        }
+      } else {
+        if (page === 1) {
+          $("#showTodos").html(`<p style="text-align:center;">Tidak ada data yang cocok dengan kriteria pencarian.</p>`);
+        } else {
+          reachedEnd = true;
+        }
+      }
+};
+
 readData();
+
 
 
 const addData = async () => {
