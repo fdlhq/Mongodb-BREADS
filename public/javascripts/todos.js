@@ -17,6 +17,7 @@ function getId(_id) {
 }
 
 const browseData = () => {
+  reachedEnd = false;
   page = 1;
   title = $("#searchTitle").val();
   startdateDeadline = $("#startdateDeadline").val();
@@ -32,6 +33,7 @@ const browseData = () => {
 };
 
 const sortAsc = (deadline) => {
+    reachedEnd = false;
     page = 1
     sortBy = deadline
     sortMode = 'asc'
@@ -43,6 +45,7 @@ const sortAsc = (deadline) => {
 }
 
 const sortDesc = (deadline) => {
+    reachedEnd = false;
     page = 1
     sortBy = deadline
     sortMode = 'desc'
@@ -134,7 +137,7 @@ const readData = async () => {
         }
       } else {
         if (page === 1) {
-          $("#showTodos").html(`<p style="text-align:center;">Tidak ada data yang cocok dengan kriteria pencarian.</p>`);
+          $("#showTodos").html(`<p></p>`);
         } else {
           reachedEnd = true;
         }
@@ -198,7 +201,7 @@ const getData = async (_id) => {
       dataType: "json",
     });
     $("#editTitle").val(todo.title);
-    $("#editDeadline").val(moment(todo.deadline).format("YYYY-MM-DDThh:mm"));
+    $("#editDeadline").val(moment(todo.deadline).format("YYYY-MM-DDTHH:mm"));
     $("#editComplete").prop("checked", todo.complete);
   } catch (e) {
     console.log(e);
@@ -211,7 +214,6 @@ const editData = async () => {
     title = $("#editTitle").val();
     deadline = $("#editDeadline").val();
     complete = $("#editComplete").prop("checked");
-    const a_day = 24 * 60 * 60 * 1000;
     const todo = await $.ajax({
       url: `/api/todos/${id}`,
       method: "PUT",

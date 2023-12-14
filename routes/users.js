@@ -18,7 +18,6 @@ module.exports = function (db) {
       const sort = {};
       sort[sortBy] = sortMode;
       const offset = (page - 1) * limit;
-      console.log('kelar', limit)
 
       params["$or"] = [
         { name: new RegExp(keyword, "i") },

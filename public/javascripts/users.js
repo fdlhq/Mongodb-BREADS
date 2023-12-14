@@ -69,6 +69,7 @@ const sortPhoneDesc = (phone) => {
 }
 
 const browse = () => {
+  page = 1
   const name = document.getElementById('name').value
   const phone = document.getElementById('phone').value
   let inputData = document.getElementById('inputData').value
@@ -101,17 +102,13 @@ const changePage = async (num) => {
 
 
 const readData = async () => {
-  console.log('okey')
   let pagination = ''
   let pageNumber = ''
   const response = await fetch(`http://localhost:3000/api/users?keyword=${keyword}&page=${page}&limit=${limit}&sortBy=${sortBy}&sortMode=${sortMode}`);
-  console.log('ini', limit)
   const users = await response.json();
   let html = "";
   const offset = users.offset
-  console.log(users, 'suitsuit')
   users.data.forEach((item, index) => {
-    console.log('siap')
     html += `
     <tr>
     <th scope="row">${index + offset + 1}</th>
